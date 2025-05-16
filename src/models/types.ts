@@ -1,4 +1,3 @@
-
 export interface Network {
   id: number;
   name: string;
@@ -13,7 +12,7 @@ export interface Profile {
 
 export interface Posts {
   id: number;
-  author: String;
+  author: string;
   networkId: number;
   content: string;
   contentEmbedding?: number[];
@@ -25,7 +24,6 @@ export interface Members {
   networkId: number;
 }
 
-
 export interface QueryRequest {
   prompt: string;
   networkId: number;
@@ -33,7 +31,7 @@ export interface QueryRequest {
 
 export interface SimilarityResult {
   type: 'post' | 'profile';
-  item: Posts | Profile
+  item: Posts | Profile;
   score: number;
 }
 
@@ -44,5 +42,3 @@ export interface QueryResponse {
 export interface EmbeddingFunction {
   (text: string): number[];
 }
-
-
