@@ -1,16 +1,31 @@
 {
   "devDependencies": {
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.7.5",
     "gts": "^6.0.2",
-    "typescript": "^5.6.3",
-    "@types/node": "^22.7.5"
+    "prisma": "^6.8.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
   },
   "scripts": {
+    "dev": "ts-node src/index.ts",
     "lint": "gts lint",
     "clean": "gts clean",
     "compile": "tsc",
     "fix": "gts fix",
     "prepare": "npm run compile",
     "pretest": "npm run compile",
-    "posttest": "npm run lint"
+    "posttest": "npm run lint",
+    "cli": "ts-node src/cli.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.8.1",
+    "commander": "^13.1.0",
+    "csv-parser": "^3.2.0",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }

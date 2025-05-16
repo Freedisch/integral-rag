@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Network {
+  id Int @id
+  name String
+  posts Post[]
+  members Member[]
+
+  @@map("networks")
+}
+
+model Post {
+  id Int @id
+  content String
+  contentEmbedding Float[]
+  network Network @relation(fields: [networkId], references: [id])
+  networkId Int
+  author String
+
+  Profile Profile[] @relation("PostAuthor")
+
+  @@map("posts")
+
+}
+
+model Member {
+  id Int @id
+  network Network @relation(fields: [networkId], references: [id])
+  networkId Int
+  profile Profile @relation(fields: [profileId], references: [id])
+  profileId Int
+
+  @@map("members")
+
+}
+
+model Profile {
+  id Int @id
+  name String
+  bio String
+  bioEmbedding Float[]
+  posts Post[] @relation("PostAuthor")
+  memberships Member[]
+
+  @@map("profiles")
+
+}

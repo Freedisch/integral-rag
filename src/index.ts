@@ -1,26 +1,54 @@
-console.log("Try npm run lint/fix!");
+/* eslint-disable n/no-process-exit */
+import * as dotenv from 'dotenv';
+import * as express from 'express';
 
-const longString = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut aliquet diam.';
+import {Request, Response} from 'express';
 
-const trailing = 'Semicolon'
+import {initializeDatabase} from './db/client';
+import {embedHandler} from './routes/embed';
+import {queryHandler} from './routes/query';
+import {prisma} from './db/prisma';
 
-			const why={am:'I tabbed?'};
+dotenv.config();
 
-const iWish = "I didn't have a trailing space..."; 
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-const sicilian = true;;
+app.use(express.json());
 
-const vizzini = (!!sicilian) ? !!!sicilian : sicilian;
+app.post('/embed', embedHandler);
+app.post('/query', queryHandler);
 
-const re = /foo   bar/;
+app.get('/health', (req: Request, res: Response) => {
+  res.status(200).json({status: 'ok'});
+});
 
-export function doSomeStuff(withThis: string, andThat: string, andThose: string[]) {
-    //function on one line
-    if(!Boolean(andThose.length)) {return false;}
-    console.log(withThis);
-    console.log(andThat);
-    console.dir(andThose);
-    console.log(longString, trailing, why, iWish, vizzini, re);
-    return;
+async function startServer() {
+  try {
+    await initializeDatabase();
+    console.log('Database connection established successfully');
+
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+      console.log('Available endpoints:');
+      console.log('  POST /embed - Load and embed data from CSV files');
+      console.log(
+        '  POST /query - Query for relevant content based on a prompt',
+      );
+      console.log('  GET /health - Health check endpoint');
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
 }
-// TODO: more examples
+
+if (require.main === module) {
+  void startServer();
+}
+
+process.on('beforeExit', async () => {
+  await prisma.$disconnect();
+});
+
+export {app, startServer};
