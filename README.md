@@ -2,6 +2,10 @@
 
 This is a simplified Retrieval-Augmented Generation (RAG) system. It allows you to store community content (posts and profiles) as embeddings in a PostgreSQL database and retrieve the most relevant content based on user prompts.
 
+## Demo
+
+https://youtu.be/Ne_peE5U7dg
+
 ## Features
 
 - Embeds post content and profile bios using a deterministic mock embedding function
@@ -172,6 +176,8 @@ The CLI offers an interactive way to query the system:
 ## Prisma Schema
 
 The Prisma schema defines our data model and relationships:
+
+![image](https://github.com/user-attachments/assets/2e98edb2-ccf0-418a-951a-64f243851938)
 
 
 
