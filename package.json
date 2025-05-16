@@ -15,7 +15,8 @@
     "fix": "gts fix",
     "prepare": "npm run compile",
     "pretest": "npm run compile",
-    "posttest": "npm run lint"
+    "posttest": "npm run lint",
+    "cli": "ts-node src/cli.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.8.1",
